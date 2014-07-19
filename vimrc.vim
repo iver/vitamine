@@ -18,40 +18,33 @@
 
   " Github Repos
   NeoBundle 'Shougo/vimproc'              " Interactive command execution
-  NeoBundle 'Valloric/YouCompleteMe'      " A code-completion engine for Vim
+  NeoBundle 'Shougo/neocomplcache'        " Ultimate auto-completion system
   NeoBundle 'scrooloose/syntastic'        " Syntax checking hacks
   NeoBundle 'scrooloose/nerdtree'         " A tree explorer plugin
   NeoBundle 'scrooloose/nerdcommenter'    " Vim plugin for intensely orgasmic commenting
-  NeoBundle 'ctrlpvim/ctrlp.vim'          " Fuzzy file, buffer, mru, tag, etc finder
+  NeoBundle 'kien/ctrlp.vim'              " Fuzzy file, buffer, mru, tag, etc finder
   NeoBundle 'myusuf3/numbers.vim'         " A vim plugin for better line numbers
   NeoBundle 'Lokaltog/vim-powerline'      " The ultimate vim statusline utility
-  NeoBundle 'Lokaltog/vim-easymotion'     " Vim motions on speed!
-  NeoBundle 'bling/vim-airline'           " Status line, 100% vimscript; no python needed.
   NeoBundle 'mattn/zencoding-vim'         " zen-coding for vim: http://code.google.com/p/zen-coding/
   NeoBundle 'ervandew/supertab'           " Perform all your vim insert mode completions with Tab
   NeoBundle 'hail2u/vim-css3-syntax'      " Add CSS3 syntax support to vim's built-in `syntax/css.vim`
-  NeoBundle 'ap/vim-css-color'            " Highlight colors in css files
+  NeoBundle 'skammer/vim-css-color'       " Highlight colors in css files
   NeoBundle 'wavded/vim-stylus'           " Syntax Highlighting for Stylus
   NeoBundle 'keitheis/vim-plim'           " Syntax Highlighting for Plim
-  NeoBundle 'digitaltoad/vim-pug'         " Vim Pug (formerly Jade) template engine syntax highlighting and indention
+  NeoBundle 'digitaltoad/vim-jade'        " Vim Jade template engine syntax highlighting and indention
   NeoBundle 'pangloss/vim-javascript'     " Vastly improved vim's javascript indentation
   NeoBundle 'plasticboy/vim-markdown'     " Syntax highlighting and matching rules for Markdown
   NeoBundle 'tpope/vim-fugitive'          " A Git wrapper so awesome, it should be illegal
   NeoBundle 'tpope/vim-surround'          " quoting/parenthesizing made simple
-  NeoBundle 'rizzatti/funcoo.vim'
-  NeoBundle 'rizzatti/dash.vim'           " Search Dash.app from Vim
-  NeoBundle 'SirVer/ultisnips'            " The ultimate snippet solution for Vim
-  NeoBundle 'honza/vim-snippets'          " vim-snipmate default snippets
-  NeoBundle 'isRuslan/vim-es6'            " List of JavaScript ES6 snippets and syntax highlighting for vim.
-  NeoBundle 'othree/yajs.vim'             " Enhanced javascript syntax file for Vim
-  NeoBundle 'mxw/vim-jsx'                 " React JSX syntax highlighting and indenting for vim
-  NeoBundle 'leafgarland/typescript-vim'
+  NeoBundle 'bling/vim-airline'           " Lean & mean status/tabline for vim that's light as air.
+  NeoBundle 'majutsushi/tagbar'           " Tagbar is a vim plugin for browsing the tags of source code files.
 
   " Github `vim-scripts`
   NeoBundle 'sudo.vim'                    " Allows one to edit a file with prevledges from an unprivledged session
   NeoBundle 'ack.vim'                     " Plugin for the Perl module / CLI script 'ack'
+  NeoBundle 'EasyMotion'                  " Vim motions on speed!
   NeoBundle 'taglist.vim'                 " Provides an overview of the structure of source code
-  NeoBundle 'Emmet.vim'                   " vim plugins for HTML and CSS hi-speed coding
+  NeoBundle 'UltiSnips'                   " The ultimate snippet solution for python enabled Vim
 
   " Auto-Installation
   if neobundle#exists_not_installed_bundles()
@@ -62,8 +55,7 @@
 " }
 
 " General {
-  syntax enable              " syntax highlighting
-  set term=xterm-256color    " enable color code
+  syntax on                  " syntax highlighting
   filetype plugin indent on  " automatically detect file types
   set mouse=a                " automatically enable mouse usage
   set mousehide              " hide the mouse cursor while typing
@@ -92,38 +84,24 @@
   set shiftwidth=2                " use indents of 2 spaces
   set tabstop=2                   " an indentation every two columns
   set softtabstop=2               " let backspace delete indent
+  set diffopt+=iwhite,vertical    " ignore the difference of indents
   set matchpairs=(:),{:},[:],<:>
   set foldmethod=marker
-  set colorcolumn=110
-
-  " ignore the difference of indents
-  if &diff
-    set diffopt-=internal
-    set diffopt+=iwhite,vertical
-  endif
+  set colorcolumn=100
 
   " Remove trailing whitespaces and ^M chars
   autocmd BufWritePre <buffer> call StripTrailingWhitespace()
   autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+  autocmd FileType java setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
   autocmd FileType xml setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 " }
 
 " UI {
-  set tabpagemax=15
-  set background=dark
-
-  let g:solarized_termtrans=1
-  let g:solarized_contrast='high'
-  let g:solarized_visibility='high'
-  let g:solarized_termcolors=256
-
-  colorscheme solarized
-
-  "  if has('cmdline_info')
-  "  set ruler                   " show the ruler
-  "  set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
-  "  set showcmd                 " show partial commands in status line and                             " selected characters/lines in visual mode
-  "  endif
+  if has('cmdline_info')
+    set ruler                   " show the ruler
+    set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
+    set showcmd                 " show partial commands in status line and                                " selected characters/lines in visual mode
+  endif
 
   if has('statusline')
     set laststatus=2
@@ -155,12 +133,6 @@
       set transparency=5        " Make the window slightly transparent
     endif
 
-"    if has("gui_gtk2")
-"      set guifont=Monaco\ 13,Consolas\ 13
-"    else
-"      set guifont=Monaco:h13,Consolas:h13
-"    endif
-    set guifont=Liberation\ Mono\ for\ Powerline\ 10
   endif
 " }
 
@@ -222,23 +194,9 @@
     \ 'mode': 'active',
     \ 'passive_filetypes': ['html','java'] }
 
-  set statusline+=%#warningmsg#
-  set statusline+=%{SyntasticStatuslineFlag()}
-  set statusline+=%*
-
-  let g:syntastic_python_checkers = ['flake8']
-  let g:syntastic_python_flake8_args = '--ignore="E401,E501"'
-  let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 1
-  let g:syntastic_check_on_open = 1
-  let g:syntastic_check_on_wq = 0
-  " https://github.com/jaxbot/syntastic-react
-  let g:syntastic_javascript_eslint_args = "--no-eslintrc --config ~/.eslintrc.json"
-  let g:syntastic_javascript_checkers = ['eslint']
-" }
-
-" JSX {
-  let g:jsx_ext_required = 0
+  let g:syntastic_python_checker = 'flake8'
+  let g:syntastic_python_checker_args = '--ignore="E401,E501"'
+  let g:syntastic_javascript_jshint_conf = '~/.jshintrc'
 " }
 
 " vimScript {
@@ -247,9 +205,13 @@
   let g:html_indent_style1 = 'inc'
 " }
 
-
-" indenting {
-  let g:typescript_indent_disable = 1
+" neocomplcache {
+  let g:acp_enableAtStartup = 0
+  let g:neocomplcache_enable_at_startup = 1
+  let g:neocomplcache_enable_smart_case = 1
+  let g:neocomplcache_enable_camel_case_completion = 1
+  let g:neocomplcache_enable_underbar_completion = 1
+  let g:neocomplcache_min_syntax_length = 3
 " }
 
 " nerdcommenter {
@@ -281,7 +243,7 @@
   let g:ackprg = 'ag --nogroup --nocolor --column'
 " }
 
-" CSSColor {
+  " CSSColor {
   let g:cssColorVimDoNotMessMyUpdatetime = 1
 " }
 
@@ -292,34 +254,24 @@
 "}
 
 " Powerline {
-"  let g:Powerline_symbols = 'fancy'
-"  let g:Powerline_colorscheme = 'solarized256'
-" }
-
-" Airline {
-  let g:airline_powerline_fonts = 1
+"   let g:Powerline_symbols = 'fancy'
+"   let g:Powerline_colorscheme = 'solarized256'
 " }
 
 " EasyMotion {
+  let g:EasyMotion_leader_key = '<Leader>'
+
   " Compatible with `solarized` colorscheme
   hi link EasyMotionTarget ErrorMsg
   hi link EasyMotionShade  Comment
 " }
 
 " UltiSnips {
-  let g:UltiSnipsExpandTrigger="<c-tab>"
-  let g:UltiSnipsJumpForwardTrigger="<c-b>"
-  let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-" }
-
-" Dash {
-  nmap <silent> <leader>d <Plug>DashSearch
+  let g:UltiSnipsSnippetDirectories=["snippets"]
 " }
 
 " Autocmd {
   autocmd! bufwritepost vimrc source ~/.vim/vimrc
-  au BufRead,BufNewFile *.tag :set filetype=jade
-  au BufNewFile,BufRead *.es6 set filetype=javascript
 " }
 
 " Taglist {
@@ -349,6 +301,62 @@
     let @/=_s
     call cursor(l, c)
   endfunction
+
+  function! s:tagbar_integration()
+    " status line
+  endfunction
+
+  function! AirlineInit()
+"  set tabpagemax=15
+  set background=dark
+
+"  let g:solarized_termtrans=1
+"  let g:solarized_contrast='high'
+"  let g:solarized_visibility='high'
+"  let g:solarized_termcolors=256
+"  colorscheme murmur
+
+"   let g:airline_section_a = airline#section#create(['mode',' ','branch'])
+    let g:airline_powerline_fonts=1
+    if !exists('g:airline_symbols')
+      let g:airline_symbols = {}
+    endif
+    set guifont=
+"    let g:airline_left_sep = '▶'
+"    let g:airline_right_sep = '◀'
+"    let g:Powerline_theme="skwp"
+"    let g:Powerline_colorscheme="skwp"
+    let g:airline_symbols.linenr = '␤'
+"   set fillchars+=stl:\ ,stlnc:\
+"   let g:Powerline_mode_V="V·LINE"
+"   let g:Powerline_mode_cv="V·BLOCK"
+"   let g:Powerline_mode_S="S·LINE"
+"   let g:Powerline_mode_cs="S·BLOCK"
+
+    let g:airline_enable_branch = 1
+    let g:airline_enable_syntastic  = 1
+  "vim-powerline symbols
+    if has("win32")
+      let g:airline_left_sep  = '►'
+      let g:airline_left_alt_sep  = '»'
+      let g:airline_right_sep = '◄'
+      let g:airline_right_alt_sep = '«'
+      let g:airline_branch_prefix = '‡'
+    else
+      let g:airline_left_sep  = '▶'
+      let g:airline_left_alt_sep  = '»'
+      let g:airline_right_sep = '◀'
+      let g:airline_right_alt_sep = '«'
+      let g:airline_branch_prefix = '⎇'
+    endif
+
+    let g:airline_readonly_symbol   = '!'
+    let g:airline_linecolumn_prefix = 'l:c'
+    let g:airline#extensions#bufferline#enabled = 1
+
+  endfunction
+
+  autocmd VimEnter * call AirlineInit()
 
   function! InitializeDirectories()
     let parent = $HOME
