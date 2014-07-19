@@ -46,8 +46,11 @@
   NeoBundle 'othree/yajs.vim'             " Enhanced javascript syntax file for Vim
   NeoBundle 'mxw/vim-jsx'                 " React JSX syntax highlighting and indenting for vim
   NeoBundle 'leafgarland/typescript-vim'
+  NeoBundle 'slim-template/vim-slim'      " Slim template for vim
 
   " Github `vim-scripts`
+  NeoBundle 'rizzatti/funcoo.vim'
+  NeoBundle 'rizzatti/dash.vim'           " Search Dash.app from Vim
   NeoBundle 'sudo.vim'                    " Allows one to edit a file with prevledges from an unprivledged session
   NeoBundle 'ack.vim'                     " Plugin for the Perl module / CLI script 'ack'
   NeoBundle 'taglist.vim'                 " Provides an overview of the structure of source code
