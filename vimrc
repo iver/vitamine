@@ -1,1 +1,0 @@
-/Users/Iver/Config/dotfiles/bash/vimrc
