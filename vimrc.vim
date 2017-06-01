@@ -4,13 +4,13 @@
 " }
 
 " Environment {
-  set nocompatible
   filetype on
   filetype off
 " }
 
 " NeoBundles {
   if has('vim_starting')
+    set nocompatible
     set runtimepath+=~/.vim/bundle/neobundle.vim/
   endif
 
@@ -22,6 +22,7 @@
   NeoBundle 'ekalinin/Dockerfile.vim'     " Docker syntax
   NeoBundle 'Shougo/vimproc'              " Interactive command execution
   NeoBundle 'Valloric/YouCompleteMe'      " A code-completion engine for Vim
+  NeoBundle 'Shougo/neocomplcache'        " Ultimate auto-completion system
   NeoBundle 'scrooloose/syntastic'        " Syntax checking hacks
   NeoBundle 'scrooloose/nerdtree'         " A tree explorer plugin
   NeoBundle 'scrooloose/nerdcommenter'    " Vim plugin for intensely orgasmic commenting
@@ -104,22 +105,20 @@
       \    },
       \ }
 " }
-
-  " Auto-Installation
-  "if neobundle#exists_not_installed_bundles()
-  "  echomsg 'Automatically install the following bundles: ' .
-  "    \ string(neobundle#get_not_installed_bundle_names())
-  "  execute ':NeoBundleInstall'
-  "endif
-
-"  NeoBundleCheck
-" }
-
-
   call neobundle#end()
 
+  " Auto-Installation
+  if neobundle#exists_not_installed_bundles()
+    echomsg 'Automatically install the following bundles: ' .
+      \ string(neobundle#get_not_installed_bundle_names())
+    execute ':NeoBundleInstall'
+  endif
+
+  NeoBundleCheck
+" }
+
 " General {
-  syntax enable              " syntax highlighting
+  syntax enable                  " syntax highlighting
   filetype plugin indent on  " automatically detect file types
   set mouse=a                " automatically enable mouse usage
   set mousehide              " hide the mouse cursor while typing
@@ -161,6 +160,7 @@
   " Remove trailing whitespaces and ^M chars
   autocmd BufWritePre <buffer> call StripTrailingWhitespace()
   autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+  autocmd FileType java setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
   autocmd FileType xml setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 " }
 
@@ -172,6 +172,8 @@
   let g:solarized_contrast='high'
   let g:solarized_visibility='high'
   let g:solarized_termcolors=256
+
+  colorscheme solarized
 
   " Set mouse behavior
   " set mouse=a
@@ -204,8 +206,6 @@
   set foldenable                  " auto fold code
   set cursorline                  " highlight current line
   set anti                        " make text pretty
-
-   colorscheme solarized
 "   colorscheme tomorrow_night_bright
 " }
 
@@ -280,17 +280,15 @@
 " }
 
 " SyntaxCheckers {
-  let g:syntastic_mode_map = {
-    \ 'mode': 'active',
-    \ 'passive_filetypes': ['html','java'] }
+"  let g:syntastic_mode_map = {
+"    \ 'mode': 'active',
+"    \ 'passive_filetypes': ['html','java'] }
 
 "  let g:syntastic_python_checkers = ['flake8']
 "  let g:syntastic_python_flake8_args = '--ignore="E401,E501"'
 "  let g:syntastic_javascript_jshint_conf = '~/.jshintrc'
-
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
-
 " }
 
 " vimScript {
@@ -354,6 +352,7 @@ let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' ch
 " UltiSnips configuration {
   set runtimepath+=~/.vim/bundle/vim-snippets/snippets
   let g:UltiSnipsUsePythonVersion = 2
+  let g:UltiSnipsSnippetDirectories=["UltiSnips"]
   let g:UltiSnipsExpandTrigger="<tab>"
   let g:UltiSnipsJumpForwardTrigger="<c-b>"
   let g:UltiSnipsJumpBackwardTrigger="<c-z>"
@@ -414,6 +413,8 @@ let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' ch
 " Powerline {
   let g:Powerline_symbols = 'fancy'
   let g:Powerline_colorscheme = 'tomorrow_night_blue'
+"  let g:Powerline_symbols = 'fancy'
+"  let g:Powerline_colorscheme = 'solarized256'
 " }
 
 " Airline {
@@ -497,7 +498,6 @@ let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' ch
   endfunction
   call InitializeDirectories()
 " }
-
 " COMMENTS SECTION
 "  ,# shell, perl, etc
 "  ,/ c++
