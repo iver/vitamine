@@ -8,7 +8,7 @@ elif [ -f ~/.vimrc ]; then
     echo "Warning: ~/.vimrc already exists"
     exit 0
 else
-    ln -s $(PWD)/vimrc ~/.vim/vimrc.vim
+    ln -s ~/.vim/vimrc.vim ~/.vimrc
     echo "Create a symbolic link to ~/.vimrc"
 fi
 
