@@ -6,7 +6,7 @@ Vim plugins, scripts and resources for my daily use.
 
 1. Clone Vitamine:
   ```bash
-  $ git git@github.com:ivan-iver/vitamine.git ~/.vim
+  $ git git@github.com:iver/vitamine.git ~/.vim
   ```
 
 1. Install submodules & configured bundles
@@ -17,6 +17,7 @@ Vim plugins, scripts and resources for my daily use.
 1. Build [YouCompleteMe](https://github.com/Valloric/YouCompleteMe#installation).
 
 1. Download & install patched font Monaco for Vim-Powerline. [OSX](https://gist.github.com/1838072) / [Linux](https://gist.github.com/1634235)
+
   ```bash
   $ open ~/.vim/colors/fonts/Monaco+for+Powerline.otf
   ```
