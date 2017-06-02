@@ -221,7 +221,10 @@
 "    else
 "      set guifont=Monaco:h13,Consolas:h13
 "    endif
-    set guifont=Liberation\ Mono\ for\ Powerline\ 10
+    if has("mac") || has("macunix")
+      set guifont=Monaco\ for\ Powerline:h24
+"    set guifont=Liberation\ Mono\ for\ Powerline\ 10
+    endif
   endif
 " }
 
@@ -422,6 +425,33 @@ let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' ch
 "  let g:airline_theme='bubblegum'
   let g:airline#extensions#whitespace#checks=[]
   let g:airline#extensions#tagbar#enabled = 1
+
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" airline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 " }
 
 " EasyMotion {

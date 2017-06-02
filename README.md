@@ -18,8 +18,16 @@ Vim plugins, scripts and resources for my daily use.
 
 1. Download & install patched font Monaco for Vim-Powerline. [OSX](https://gist.github.com/1838072) / [Linux](https://gist.github.com/1634235)
 
+  * Option A
+
   ```bash
   $ open ~/.vim/colors/fonts/Monaco+for+Powerline.otf
+  ```
+  * Option B 
+
+  ```
+  	$ git clone
+  	$ https://github.com/powerline/fonts
   ```
 
 ## Pre-configured Bundles:
