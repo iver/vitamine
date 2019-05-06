@@ -21,7 +21,6 @@
   " Github Repos
   NeoBundle 'ekalinin/Dockerfile.vim'     " Docker syntax
   NeoBundle 'Shougo/vimproc'              " Interactive command execution
-  NeoBundle 'Valloric/YouCompleteMe'      " A code-completion engine for Vim
   NeoBundle 'Shougo/neocomplcache'        " Ultimate auto-completion system
   NeoBundle 'scrooloose/syntastic'        " Syntax checking hacks
   NeoBundle 'scrooloose/nerdtree'         " A tree explorer plugin
