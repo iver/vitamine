@@ -38,12 +38,12 @@
   NeoBundle 'keitheis/vim-plim'           " Syntax Highlighting for Plim
   NeoBundle 'digitaltoad/vim-jade'        " Vim Jade template engine syntax highlighting and indention
   NeoBundle 'plasticboy/vim-markdown'     " Syntax highlighting and matching rules for Markdown
-  NeoBundle 'tpope/vim-fugitive'          " A Git wrapper so awesome, it should be illegal
+  " NeoBundle 'tpope/vim-fugitive'          " A Git wrapper so awesome, it should be illegal
   NeoBundle 'tpope/vim-surround'          " quoting/parenthesizing made simple
   NeoBundle 'slim-template/vim-slim'      " Slim template for vim
   NeoBundle 'fatih/vim-go'                " Syntax highlighting to go
-  NeoBundle 'dgryski/vim-godef'           " Go to definition in go files
-  NeoBundle 'Blackrush/vim-gocode'        " Bundle go code
+  " NeoBundle 'dgryski/vim-godef'           " Go to definition in go files
+  " NeoBundle 'Blackrush/vim-gocode'        " Bundle go code
   NeoBundle 'majutsushi/tagbar'           " Vim plugin that displays tags in a window, ordered by scope  http://majutsushi.github.com/tagbar/
   NeoBundle 'vim-scripts/dbext.vim'       " This plugin contains functions/mappings/commands to enable Vim to access several databases.
   NeoBundle 'elixir-lang/vim-elixir'      " Elixir support for vim. This plugin also adds support for Elixir's templating language, EEx.
@@ -51,7 +51,12 @@
   NeoBundle 'leafgarland/typescript-vim'  " A Vim plugin for Typescript
   NeoBundle 'rcyrus/snipmate-snippets-rubymotion'  " some rubymotion snippets
   NeoBundle 'chase/vim-ansible-yaml'      " Ansible yml plugin
+  NeoBundle 'ryanoasis/vim-devicons'      " Dev Icons https://vimawesome.com/plugin/vim-devicons
 "  NeoBundle 'avdgaag/vim-phoenix'         " Vim plugin for working with the Phoenix framework
+  NeoBundle 'preservim/nerdcommenter'     " Vim plugin for intensely nerdy commenting powers
+  NeoBundle 'aliou/bats.vim'              " plugin adding syntax files for Bats
+  NeoBundle 'itspriddle/vim-shellcheck'   " Vim wrapper for ShellCheck, a static analysis tool for shell scripts.
+  NeoBundle 'dense-analysis/ale'          " ALE (Asynchronous Lint Engine) is a plugin providing linting (syntax checking and semantic errors)
 
 " Requires vim version at least 7.3.584
 "  NeoBundle 'Valloric/YouCompleteMe'         " YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim.
@@ -151,7 +156,12 @@
   set shiftwidth=2                " use indents of 2 spaces
   set tabstop=2                   " an indentation every two columns
   set softtabstop=2               " let backspace delete indent
-  set diffopt+=iwhite,vertical    " ignore the difference of indents
+  "set diffopt+=iwhite,vertical    " ignore the difference of indents
+  "Ignore whitespace with vimdiff
+  if &diff
+    set diffopt-=internal
+    set diffopt+=iwhite
+  endif
   set matchpairs=(:),{:},[:],<:>
   set foldmethod=marker
   set colorcolumn=110
@@ -221,10 +231,63 @@
 "      set guifont=Monaco:h13,Consolas:h13
 "    endif
     if has("mac") || has("macunix")
-      set guifont=Monaco\ for\ Powerline:h24
+"      set guifont=Monaco\ for\ Powerline:h24
 "    set guifont=Liberation\ Mono\ for\ Powerline\ 10
     endif
   endif
+" }
+
+" DevIcon Conf {
+" loading the plugin
+  let g:webdevicons_enable = 1
+  " adding the flags to NERDTree
+  let g:webdevicons_enable_nerdtree = 1
+  " adding the custom source to unite
+  let g:webdevicons_enable_unite = 1
+  " adding the column to vimfiler
+  let g:webdevicons_enable_vimfiler = 1
+  " adding to vim-airline's tabline
+  let g:webdevicons_enable_airline_tabline = 1
+  " adding to vim-airline's statusline
+  let g:webdevicons_enable_airline_statusline = 1
+  " ctrlp glyphs
+  let g:webdevicons_enable_ctrlp = 1
+  " adding to vim-startify screen
+  let g:webdevicons_enable_startify = 1
+  " adding to flagship's statusline
+  let g:webdevicons_enable_flagship_statusline = 1
+  " turn on/off file node glyph decorations (not particularly useful)
+  let g:WebDevIconsUnicodeDecorateFileNodes = 1
+  " use double-width(1) or single-width(0) glyphs
+  " only manipulates padding, has no effect on terminal or set(guifont) font
+  let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
+  " whether or not to show the nerdtree brackets around flags
+  let g:webdevicons_conceal_nerdtree_brackets = 1
+  " the amount of space to use after the glyph character (default ' ')
+  " let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
+  " Force extra padding in NERDTree so that the filetype icons line up vertically
+  let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
+  " Adding the custom source to denite
+  let g:webdevicons_enable_denite = 1
+  " The amount of space to use after the glyph character in vim-airline tabline(default '')
+  let g:WebDevIconsTabAirLineAfterGlyphPadding = ' '
+  " The amount of space to use before the glyph character in vim-airline tabline(default ' ')
+  let g:WebDevIconsTabAirLineBeforeGlyphPadding = ' '
+  let g:WebDevIconsOS = 'Darwin'
+
+  " NERDTrees File highlighting only the glyph/icon
+" test highlight just the glyph (icons) in nerdtree:
+autocmd filetype nerdtree highlight haskell_icon ctermbg=none ctermfg=Red guifg=#ffa500
+autocmd filetype nerdtree highlight html_icon ctermbg=none ctermfg=Red guifg=#ffa500
+autocmd filetype nerdtree highlight go_icon ctermbg=none ctermfg=Red guifg=#ffa500
+
+autocmd filetype nerdtree syn match haskell_icon ## containedin=NERDTreeFlags
+" if you are using another syn highlight for a given line (e.g.
+" NERDTreeHighlightFile) need to give that name in the 'containedin' for this
+" other highlight to work with it
+autocmd filetype nerdtree syn match html_icon ## containedin=NERDTreeFlags,html
+autocmd filetype nerdtree syn match go_icon ## containedin=NERDTreeFlags
+
 " }
 
 " Key Mapping {
@@ -277,9 +340,33 @@
   let g:NERDTreeWinSize = 40
   let g:nerdtree_tabs_open_on_gui_startup = 0
 
+  " NERDTrees File highlighting
+  function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+    exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+    exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+  endfunction
+  call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+  call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+  call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+  call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+  call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+  call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+  call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+  call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+  call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+  call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+  call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+  call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+  call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+  call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
+  call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
+  call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
+  call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
+  call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
   " open a NERDTree automatically when vim starts up if no files were specified
   " autocmd vimenter * if !argc() | NERDTree | endif
 " }
+"
 
 " SyntaxCheckers {
 "  let g:syntastic_mode_map = {
@@ -373,6 +460,8 @@ let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' ch
 " }
 
 " nerdcommenter {
+  let g:NERDToggleCheckAllLines = 1
+  let g:NERDCreateDefaultMappings = 1
   nmap <leader>n<space> <plug>NERDCommenterToggle
   vmap <leader>n<space> <plug>NERDCommenterToggle
 " }
