@@ -4,13 +4,13 @@
 " }
 
 " Environment {
+  set nocompatible
   filetype on
   filetype off
 " }
 
 " NeoBundles {
   if has('vim_starting')
-    set nocompatible
     set runtimepath+=~/.vim/bundle/neobundle.vim/
   endif
 
@@ -37,6 +37,8 @@
   NeoBundle 'wavded/vim-stylus'           " Syntax Highlighting for Stylus
   NeoBundle 'keitheis/vim-plim'           " Syntax Highlighting for Plim
   NeoBundle 'digitaltoad/vim-jade'        " Vim Jade template engine syntax highlighting and indention
+  NeoBundle 'digitaltoad/vim-pug'        " Vim Jade template engine syntax highlighting and indention
+  NeoBundle 'pangloss/vim-javascript'     " Vastly improved vim's javascript indentation
   NeoBundle 'plasticboy/vim-markdown'     " Syntax highlighting and matching rules for Markdown
   " NeoBundle 'tpope/vim-fugitive'          " A Git wrapper so awesome, it should be illegal
   NeoBundle 'tpope/vim-surround'          " quoting/parenthesizing made simple
@@ -88,9 +90,18 @@
   " Github `vim-scripts`
   NeoBundle 'rizzatti/funcoo.vim'
   NeoBundle 'rizzatti/dash.vim'           " Search Dash.app from Vim
+  NeoBundle 'SirVer/ultisnips'            " The ultimate snippet solution for Vim
+  NeoBundle 'honza/vim-snippets'          " vim-snipmate default snippets
+  NeoBundle 'isRuslan/vim-es6'            " List of JavaScript ES6 snippets and syntax highlighting for vim.
+  NeoBundle 'othree/yajs.vim'             " Enhanced javascript syntax file for Vim
+  NeoBundle 'mxw/vim-jsx'                 " React JSX syntax highlighting and indenting for vim
+  NeoBundle 'leafgarland/typescript-vim'
+
+  " Github `vim-scripts`
   NeoBundle 'sudo.vim'                    " Allows one to edit a file with prevledges from an unprivledged session
   NeoBundle 'ack.vim'                     " Plugin for the Perl module / CLI script 'ack'
   NeoBundle 'taglist.vim'                 " Provides an overview of the structure of source code
+  NeoBundle 'Emmet.vim'                   " vim plugins for HTML and CSS hi-speed coding
 
   " Angular plugins
   NeoBundle 'burnettk/vim-angular'
@@ -122,7 +133,8 @@
 " }
 
 " General {
-  syntax enable                  " syntax highlighting
+  syntax enable              " syntax highlighting
+  set term=xterm-256color    " enable color code
   filetype plugin indent on  " automatically detect file types
   set mouse=a                " automatically enable mouse usage
   set mousehide              " hide the mouse cursor while typing
@@ -156,11 +168,14 @@
   set shiftwidth=2                " use indents of 2 spaces
   set tabstop=2                   " an indentation every two columns
   set softtabstop=2               " let backspace delete indent
-  "set diffopt+=iwhite,vertical    " ignore the difference of indents
-  "Ignore whitespace with vimdiff
+  set matchpairs=(:),{:},[:],<:>
+  set foldmethod=marker
+  set colorcolumn=80
+
+  " ignore the difference of indents
   if &diff
     set diffopt-=internal
-    set diffopt+=iwhite
+    set diffopt+=iwhite,vertical
   endif
   set matchpairs=(:),{:},[:],<:>
   set foldmethod=marker
@@ -236,6 +251,9 @@
     endif
   endif
 " }
+
+" indenting {
+  let g:typescript_indent_disable = 1
 
 " DevIcon Conf {
 " loading the plugin
@@ -373,11 +391,23 @@ autocmd filetype nerdtree syn match go_icon ## containedin=NERDTreeFlags
 "    \ 'mode': 'active',
 "    \ 'passive_filetypes': ['html','java'] }
 
-"  let g:syntastic_python_checkers = ['flake8']
-"  let g:syntastic_python_flake8_args = '--ignore="E401,E501"'
-"  let g:syntastic_javascript_jshint_conf = '~/.jshintrc'
-let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+
+  let g:syntastic_python_checkers = ['flake8']
+  let g:syntastic_python_flake8_args = '--ignore="E401,E501"'
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_check_on_open = 1
+  let g:syntastic_check_on_wq = 0
+  " https://github.com/jaxbot/syntastic-react
+  let g:syntastic_javascript_eslint_args = "--no-eslintrc --config ~/.eslintrc.json"
+  let g:syntastic_javascript_checkers = ['eslint']
+" }
+
+" JSX {
+  let g:jsx_ext_required = 0
 " }
 
 " vimScript {
@@ -546,6 +576,12 @@ let g:airline_symbols.linenr = ''
   " Compatible with `solarized` colorscheme
   hi link EasyMotionTarget ErrorMsg
   hi link EasyMotionShade  Comment
+" }
+
+" UltiSnips {
+  let g:UltiSnipsExpandTrigger="<c-tab>"
+  let g:UltiSnipsJumpForwardTrigger="<c-b>"
+  let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " }
 
 " Dash {
