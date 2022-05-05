@@ -12,5 +12,7 @@ else
     echo "Create a symbolic link to ~/.vimrc"
 fi
 
-cd ~/.vim && git submodule init && git submodule update
+cd ~/.vim && git submodule update --init --recursive --remote
+
 vim -c ':NeoBundleInstall'
+
